@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { DbTestService } from './db-test.service';
-import { DbTestController } from './db-test.controller';
+import { DbTestService } from '@/db-test/db-test.service';
+import { DbTestController } from '@/db-test/db-test.controller';
 
 @Module({
     providers: [DbTestService],

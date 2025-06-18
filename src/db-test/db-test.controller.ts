@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { DbTestService } from './db-test.service';
+import { DbTestService } from '@/db-test/db-test.service';
 
 @Controller('db-test')
 export class DbTestController {
