@@ -15,7 +15,7 @@ import { Services } from "@/modules/services/entities/service.entity";
 import { Roles } from "@/modules/roles/entities/role.entity";
 
 @Index("role_id", ["roleId"], {})
-@Index("username", ["username"], { unique: true })
+@Index("email", ["email"], { unique: true })
 @Entity("users", { schema: "bookingNail" })
 export class Users {
     @PrimaryGeneratedColumn({ type: "int", name: "id" })
@@ -25,12 +25,12 @@ export class Users {
     name: string | null;
 
     @Column("varchar", {
-        name: "username",
+        name: "email",
         nullable: true,
         unique: true,
         length: 255,
     })
-    username: string | null;
+    email: string | null;
 
     @Column("varchar", { name: "password", nullable: true, length: 255 })
     password: string | null;
