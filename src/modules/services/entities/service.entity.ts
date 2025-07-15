@@ -16,11 +16,11 @@ export class Services {
     @Column("varchar", { name: "name", nullable: true, length: 255 })
     name: string | null;
 
-    @Column("int", { name: "price", nullable: true })
-    price: number | null;
+    @Column("varchar", { name: "price", nullable: true })
+    price: string | null;
 
-    @Column("int", { name: "duration", nullable: true })
-    duration: number | null;
+    @Column("varchar", { name: "duration", nullable: true })
+    duration: string | null;
 
     @Column("int", { name: "status", nullable: true })
     status: number | null;

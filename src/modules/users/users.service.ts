@@ -27,7 +27,7 @@ export class UsersService {
         EDATA: res,
       };
     } catch (error) {
-      console.error('Error creating user:', error.message);
+      // console.error('Error creating user:', error.message);
 
       return {
         ECODE: 1,
@@ -42,6 +42,13 @@ export class UsersService {
         where: { roleId },
       });
 
+      const sanitizedUsers = users.map(user => {
+        const { password, createdAt, updatedAt, ...sanitizedUser } = user;
+        return sanitizedUser;
+      });
+
+      // console.log('Users fetched by roleId:', sanitizedUsers);
+
       if (!users.length) {
         return {
           ECODE: 2,
@@ -53,7 +60,7 @@ export class UsersService {
       return {
         ECODE: 0,
         EMESSAGE: 'Users fetched successfully',
-        EDATA: users,
+        EDATA: sanitizedUsers,
       };
     } catch (error) {
       console.error('Error fetching users by roleId:', error.message);
@@ -76,10 +83,16 @@ export class UsersService {
           EDATA: [],
         };
       }
+
+      const sanitizedUsers = users.map(user => {
+        const { password, createdAt, updatedAt, ...sanitizedUser } = user;
+        return sanitizedUser;
+      });
+
       return {
         ECODE: 0,
         EMESSAGE: 'Users fetched successfully',
-        EDATA: users,
+        EDATA: sanitizedUsers,
       };
     } catch (error) {
       console.error('Error fetching users:', error.message);
@@ -96,6 +109,8 @@ export class UsersService {
         where: { id },
       });
 
+      const { password, createdAt, updatedAt, ...sanitizedUser } = user || {};
+
       if (!user) {
         return {
           ECODE: 2,
@@ -107,7 +122,7 @@ export class UsersService {
       return {
         ECODE: 0,
         EMESSAGE: 'User fetched successfully',
-        EDATA: user,
+        EDATA: sanitizedUser,
       };
     } catch (error) {
       console.error('Error fetching user:', error.message);
@@ -118,7 +133,6 @@ export class UsersService {
       };
     }
   }
-
   async update(id: number, updateUserDto: UpdateUserDto): Promise<any> {
     const user = await this.userRepository.findOne({ where: { id } });
 
@@ -151,11 +165,13 @@ export class UsersService {
       EDATA: updatedUser,
     };
   }
-  async findByEmail(email: string): Promise<any> {
+  async findOneByEmail(email: string): Promise<any> {
     try {
       const user = await this.userRepository.findOne({
         where: { email },
       });
+
+      const { password, createdAt, updatedAt, ...sanitizedUser } = user || {};
 
       if (!user) {
         return {
@@ -168,7 +184,7 @@ export class UsersService {
       return {
         ECODE: 0,
         EMESSAGE: 'User fetched successfully',
-        EDATA: user,
+        EDATA: sanitizedUser,
       };
     } catch (error) {
       console.error('Error fetching user by email:', error.message);
@@ -179,7 +195,6 @@ export class UsersService {
       };
     }
   }
-
 
   remove(id: number) {
     return `This action removes a #${id} user`;
