@@ -15,7 +15,7 @@ export class CreateUserDto {
     password: string;
 
     @IsOptional()
-    @Type(() => Number) // ép kiểu nếu dữ liệu là string
+    @Type(() => Number)
     @IsInt()
     roleId: number = 3;
 

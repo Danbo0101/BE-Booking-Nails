@@ -2,14 +2,26 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { SchedulesService } from './schedules.service';
 import { CreateScheduleDto } from './dto/create-schedule.dto';
 import { UpdateScheduleDto } from './dto/update-schedule.dto';
+import { Schedules } from './entities/schedule.entity';
+
 
 @Controller('schedules')
 export class SchedulesController {
-  constructor(private readonly schedulesService: SchedulesService) {}
+  constructor(private readonly schedulesService: SchedulesService) { }
 
-  @Post()
-  create(@Body() createScheduleDto: CreateScheduleDto) {
-    return this.schedulesService.create(createScheduleDto);
+  @Post(':id')
+  create(
+    @Param('id') id: string,
+    @Body() createScheduleDto: CreateScheduleDto
+  ) {
+    const userId = parseInt(id, 10);
+
+    const scheduleWithUser = {
+      ...createScheduleDto,
+      userId,
+    };
+
+    return this.schedulesService.create(scheduleWithUser);
   }
 
   @Get()
